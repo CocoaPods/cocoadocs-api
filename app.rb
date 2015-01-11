@@ -29,6 +29,8 @@ class App < Sinatra::Base
       halt 401, "You're not CocoaDocs!\n"
     end
 
+    metrics = JSON.load(request.body)
+
     pod = pods.where(pods[:name] => params[:name]).first
     unless pod
       halt 404, "Pod not found for #{params[:name]}."
@@ -36,19 +38,19 @@ class App < Sinatra::Base
 
     data = {
       :pod_id => pod.id,
-      :total_files => params["total_files"],
-      :total_comments => params["total_comments"],
-      :total_lines_of_code => params["total_lines_of_code"],
-      :doc_percent => params["doc_percent"],
-      :readme_complexity => params["readme_complexity"],
-      :rendered_readme_url => params["rendered_readme_url"],
-      :initial_commit_date => params["initial_commit_date"],
-      :rendered_readme_url => params["rendered_readme_url"],
+      :total_files => metrics["total_files"],
+      :total_comments => metrics["total_comments"],
+      :total_lines_of_code => metrics["total_lines_of_code"],
+      :doc_percent => metrics["doc_percent"],
+      :readme_complexity => metrics["readme_complexity"],
+      :rendered_readme_url => metrics["rendered_readme_url"],
+      :initial_commit_date => metrics["initial_commit_date"],
+      :rendered_readme_url => metrics["rendered_readme_url"],
       :not_found => 0,
       :updated_at => Time.new,
-      :download_size => params["download_size"],
-      :license_short_name => params["license_short_name"],
-      :license_canonical_url => params["license_canonical_url"],
+      :download_size => metrics["download_size"],
+      :license_short_name => metrics["license_short_name"],
+      :license_canonical_url => metrics["license_canonical_url"],
     }
 
     # update or create a metrics
