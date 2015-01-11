@@ -4,6 +4,8 @@ require 'net/http'
 
 class App < Sinatra::Base
 
+  COCOADOCS_IP = ENV['COCOADOCS_IP'] || '199.229.252.196'
+
   # Set up dynamic part.
   #
   require_relative 'domain'
@@ -23,7 +25,7 @@ class App < Sinatra::Base
     STDOUT.sync = true
 
     # validate IP address against CP server if in production
-    if ENV['RACK_ENV'] != "development" && request.ip != "199.229.252.196"
+    if ENV['RACK_ENV'] != "development" && request.ip != COCOADOCS_IP
       halt 401, "You're not CocoaDocs!\n"
     end
 
