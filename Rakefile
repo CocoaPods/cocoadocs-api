@@ -9,12 +9,7 @@ end
 
 desc 'Start up the dynamic site'
 task :serve do
-  sh "foreman start "
-end
-
-desc 'Build the static site'
-task :build do
-  sh "cd middleman && bundle exec middleman build"
+  sh "bundle exec foreman start "
 end
 
 desc "Deploy to heroku"
