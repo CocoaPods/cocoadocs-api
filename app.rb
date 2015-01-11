@@ -3,11 +3,11 @@ require 'json'
 require 'net/http'
 
 class App < Sinatra::Base
-  
+
   # Set up dynamic part.
   #
   require_relative 'domain'
-  
+
   # Methods for the dynamic part.
   #
   DB.entities.each do |entity|
@@ -16,22 +16,22 @@ class App < Sinatra::Base
       DB[name]
     end
   end
-  
+
   # Gets a Pod Page
   #
   post '/pod/:name' do
     STDOUT.sync = true
-    
+
     # validate IP address against CP server if in production
     if ENV['RACK_ENV'] != "development" && request.ip != "199.229.252.196"
       halt 401, "You're not CocoaDocs!\n"
     end
 
-    pod = pods.where(pods[:name] => params[:name]).first    
+    pod = pods.where(pods[:name] => params[:name]).first
     unless pod
       halt 404, "Pod not found for #{params[:name]}."
     end
-      
+
     data = {
       :pod_id => pod.id,
       :total_files => params["total_files"],
@@ -48,7 +48,7 @@ class App < Sinatra::Base
       :license_short_name => params["license_short_name"],
       :license_canonical_url => params["license_canonical_url"],
     }
-    
+
     # update or create a metrics
     metric = cocoadocs_pod_metrics.where(cocoadocs_pod_metrics[:pod_id] => pod.id).first
     if metric
@@ -57,6 +57,6 @@ class App < Sinatra::Base
       data[:created_at] = Time.new
       cocoadocs_pod_metrics.insert(data).kick.to_json
     end
-    
+
   end
 end
