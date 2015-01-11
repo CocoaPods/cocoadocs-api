@@ -29,7 +29,7 @@ class App < Sinatra::Base
 
     pod = pods.where(pods[:name] => params[:name]).first    
     unless pod
-      halt 404, "Pod not found for #{params[:name].}"      
+      halt 404, "Pod not found for #{params[:name]}."
     end
       
     data = {
