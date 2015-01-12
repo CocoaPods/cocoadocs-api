@@ -51,6 +51,7 @@ class App < Sinatra::Base
       :download_size => metrics["download_size"],
       :license_short_name => metrics["license_short_name"],
       :license_canonical_url => metrics["license_canonical_url"],
+      :total_test_expectations => metrics["total_test_expectations"]
     }
 
     # update or create a metrics
