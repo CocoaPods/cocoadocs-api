@@ -5,7 +5,7 @@
     <databaseInfo>
         <version>134481920</version>
         <UUID>268F8BD4-0291-4D7F-AAD9-6D0088DC3D73</UUID>
-        <nextObjectID>106</nextObjectID>
+        <nextObjectID>108</nextObjectID>
         <metadata>
             <plist version="1.0">
                 <dict>
@@ -86,7 +86,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"keyValues":[["download_size","1111",true],["total_files","111",true],["total_comments","122",true],["total_lines_of_code","132",true],["doc_percent","13",true],["readme_complexity","24",true],["initial_commit_date","[{\\"data\\":{\\"format\\":2,\\"customFormat\\":\\"\\",\\"now\\":true,\\"useTSeparator\\":1,\\"date\\":1420581522.200108,\\"delta\\":0,\\"useZForUTC\\":0},\\"identifier\\":\\"com.luckymarmot.TimestampDynamicValue\\"}]",true],["download_size","1111",true],["rendered_readme_url","http:\\/\\/place",true],["license_canonical_url","http:\\/\\/place.com",true],["license_short_name","ORT",true]]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"download_size\\":\\"1111\\",\\"total_files\\":\\"111\\",\\"total_comments\\":\\"122\\",\\"total_lines_of_code\\":\\"132\\",\\"doc_percent\\":\\"13\\",\\"readme_complexity\\":\\"24\\",\\"initial_commit_date\\":\\"[{\\\\\\"data\\\\\\":{\\\\\\"format\\\\\\":2,\\\\\\"customFormat\\\\\\":\\\\\\"\\\\\\",\\\\\\"now\\\\\\":true,\\\\\\"useTSeparator\\\\\\":1,\\\\\\"date\\\\\\":1420581522.200108,\\\\\\"delta\\\\\\":0,\\\\\\"useZForUTC\\\\\\":0},\\\\\\"identifier\\\\\\":\\\\\\"com.luckymarmot.TimestampDynamicValue\\\\\\"}]\\",\\"download_size\\":\\"1111\\",\\"rendered_readme_url\\":\\"http:\\\\\\/\\\\\\/place\\",\\"license_canonical_url\\":\\"http:\\\\\\/\\\\\\/place.com\\",\\"license_short_name\\":\\"ORT\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">CocoaDocs</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM"></relationship>
@@ -104,5 +104,31 @@
         <attribute name="uuid" type="string">212C1DC1-565E-4357-9E1E-0D048BEC9F4D</attribute>
         <attribute name="order" type="int64">1</attribute>
         <attribute name="name" type="string">Default Cookie Jar</attribute>
+    </object>
+    <object type="LMREQUEST" id="z107">
+        <attribute name="uuid" type="string">B3690F3C-095A-4024-9CAB-71647C367457</attribute>
+        <attribute name="url" type="string">http://localhost:3333/pod/ORStackView/cloc</attribute>
+        <attribute name="storecookies" type="bool">1</attribute>
+        <attribute name="sendcookies" type="bool">1</attribute>
+        <attribute name="redirectmethod" type="bool">0</attribute>
+        <attribute name="redirectauthorization" type="bool">0</attribute>
+        <attribute name="method" type="string">POST</attribute>
+        <attribute name="followredirects" type="bool">0</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"[{\\"language\\":\\"Objective C\\",\\"comments\\":12,\\"lines_of_code\\":1222,\\"files\\":10},{\\"language\\":\\"Swift\\",\\"comments\\":12,\\"lines_of_code\\":12,\\"files\\":6}]"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="order" type="int64">1</attribute>
+        <attribute name="name" type="string">CocoaDocs Duplicate</attribute>
+        <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM"></relationship>
+        <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z108"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z108">
+        <attribute name="value" type="string"></attribute>
+        <attribute name="order" type="int64">0</attribute>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z107"></relationship>
     </object>
 </database>

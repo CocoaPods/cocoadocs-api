@@ -18,17 +18,19 @@ class App < Sinatra::Base
       DB[name]
     end
   end
-
-  # Gets a Pod Page
+  
+  # Filter actions for only being ran from CD in prod / testing
   #
-  post '/pod/:name' do
-    STDOUT.sync = true
-
-    # validate IP address against CP server if in production
+  before do
     if ENV['RACK_ENV'] != "development" && request.ip != COCOADOCS_IP
       halt 401, "You're not CocoaDocs!\n"
     end
+  end
+  
 
+  # Sets the CocoaDocs metrics for something
+  #
+  post '/pod/:name' do
     metrics = JSON.load(request.body)
 
     pod = pods.where(pods[:name] => params[:name]).first
@@ -63,5 +65,29 @@ class App < Sinatra::Base
       cocoadocs_pod_metrics.insert(data).kick.to_json
     end
 
+  end
+  
+  post '/pod/:name/cloc' do
+    STDOUT.sync = true
+      
+    clocs = JSON.load(request.body)
+    pod = pods.where(pods[:name] => params[:name]).first
+    
+    unless pod
+      halt 404, "Pod not found."
+    end
+    
+    cloc_metrics = cocoadocs_cloc_metrics
+    clocs.map do |cloc_hash|
+      cloc_hash[:pod_id] = pod.id
+      clocs_db_result = cloc_metrics.where(cloc_metrics[:pod_id] => pod.id, cloc_metrics[:language] => cloc_hash[:language]).first
+      if clocs_db_result
+        puts "updating"
+        cloc_metrics.update(cloc_hash).where(id: clocs_db_result.id).kick.to_json
+      else
+        puts "creating"
+        cloc_metrics.insert(cloc_hash).kick.to_json
+      end
+    end
   end
 end
