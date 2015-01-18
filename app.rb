@@ -67,9 +67,7 @@ class App < Sinatra::Base
 
   end
   
-  post '/pod/:name/cloc' do
-    STDOUT.sync = true
-      
+  post '/pod/:name/cloc' do      
     clocs = JSON.load(request.body)
     pod = pods.where(pods[:name] => params[:name]).first
     
@@ -80,12 +78,11 @@ class App < Sinatra::Base
     cloc_metrics = cocoadocs_cloc_metrics
     clocs.map do |cloc_hash|
       cloc_hash[:pod_id] = pod.id
-      clocs_db_result = cloc_metrics.where(cloc_metrics[:pod_id] => pod.id, cloc_metrics[:language] => cloc_hash[:language]).first
+      clocs_db_result = cloc_metrics.where(cloc_metrics[:pod_id] => pod.id, cloc_metrics[:language] => cloc_hash["language"]).first
+      
       if clocs_db_result
-        puts "updating"
         cloc_metrics.update(cloc_hash).where(id: clocs_db_result.id).kick.to_json
       else
-        puts "creating"
         cloc_metrics.insert(cloc_hash).kick.to_json
       end
     end

@@ -114,7 +114,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"[{\\"language\\":\\"Objective C\\",\\"comments\\":12,\\"lines_of_code\\":1222,\\"files\\":10},{\\"language\\":\\"Swift\\",\\"comments\\":12,\\"lines_of_code\\":12,\\"files\\":6}]"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"[{\\"language\\":\\"Objective C\\",\\"comments\\":12,\\"lines_of_code\\":332,\\"files\\":10},{\\"language\\":\\"Swift\\",\\"comments\\":12,\\"lines_of_code\\":222,\\"files\\":2}]"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">1</attribute>
         <attribute name="name" type="string">CocoaDocs Duplicate</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM"></relationship>
