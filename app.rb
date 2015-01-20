@@ -48,7 +48,6 @@ class App < Sinatra::Base
       :rendered_readme_url => metrics["rendered_readme_url"],
       :initial_commit_date => metrics["initial_commit_date"],
       :rendered_readme_url => metrics["rendered_readme_url"],
-      :not_found => 0,
       :updated_at => Time.new,
       :download_size => metrics["download_size"],
       :license_short_name => metrics["license_short_name"],
