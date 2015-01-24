@@ -22,7 +22,7 @@ class App < Sinatra::Base
   # Filter actions for only being ran from CD in prod / testing
   #
   before do
-    if ENV['RACK_ENV'] != "development" && request.ip != COCOADOCS_IP
+    if ENV['COCOADOCS_SERVER_ONLY'] && ENV['RACK_ENV'] != "development" && request.ip != COCOADOCS_IP
       halt 401, "You're not CocoaDocs!\n"
     end
   end
