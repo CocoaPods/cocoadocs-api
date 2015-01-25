@@ -1,8 +1,13 @@
 require 'sinatra/base'
 require 'json'
 require 'net/http'
+require "sinatra/reloader" if :development
 
 class App < Sinatra::Base
+  configure :development do
+    register Sinatra::Reloader
+  end
+  
 
   COCOADOCS_IP = ENV['COCOADOCS_IP'] || '199.229.252.196'
 
@@ -30,7 +35,7 @@ class App < Sinatra::Base
 
   # Sets the CocoaDocs metrics for something
   #
-  post '/pod/:name' do
+  post '/pods/:name' do
     metrics = JSON.load(request.body)
 
     pod = pods.where(pods[:name] => params[:name]).first
@@ -63,10 +68,13 @@ class App < Sinatra::Base
       data[:created_at] = Time.new
       cocoadocs_pod_metrics.insert(data).kick.to_json
     end
+    
+    metric = cocoadocs_pod_metrics.where(cocoadocs_pod_metrics[:pod_id] => pod.id).first
+    
 
   end
   
-  post '/pod/:name/cloc' do      
+  post '/pods/:name/cloc' do      
     clocs = JSON.load(request.body)
     pod = pods.where(pods[:name] => params[:name]).first
     
@@ -86,4 +94,5 @@ class App < Sinatra::Base
       end
     end
   end
+    
 end

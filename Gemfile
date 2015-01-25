@@ -12,3 +12,7 @@ group :development, :production do
   gem 'foreman'
   gem 'thin'
 end
+
+group :development do
+  gem 'sinatra-contrib'
+end
