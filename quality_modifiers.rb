@@ -14,9 +14,10 @@ class QualityModifiers
   
   def generate hash    
     modify_value = 0
-    modifiers.reduce do |value, modifier|
-      value += modifier.function.call(hash) ? modifier.modifier : 0 
+    modifiers.each do |modifier|
+      modify_value += modifier.function.call(hash) ? modifier.modifier : 0
     end
+    modify_value
   end
   
   def modifiers
