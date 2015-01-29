@@ -1,11 +1,11 @@
 require 'sinatra/base'
 require 'json'
 require 'net/http'
-require "sinatra/reloader" if :development
 require_relative "quality_modifiers"
 
 class App < Sinatra::Base
   configure :development do
+    require "sinatra/reloader" 
     register Sinatra::Reloader
   end
   
