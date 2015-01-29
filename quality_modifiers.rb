@@ -66,20 +66,16 @@ class QualityModifiers
       }),
       
       Modifier.new("Uses GPL", "", -20, Proc.new { |hash|
-        hash[:license_short_name] == "GPL"
+        hash[:license_short_name] == "GPL 3"
       }),
     
       Modifier.new("Uses LGPL", "", -10, Proc.new { |hash|
-        hash[:license_short_name] == "LGPL"
+        hash[:license_short_name] == "LGPL 3"
       }),
       
-      # Modifier.new("Uses custom License", "", -3, Proc.new { |hash|
-      #   hash[:license_short_name] == ""
-      # }),
-      
-      # Modifier.new("CI Exists", "", -10, Proc.new { |hash|
-      #   hash[:license_short_name] == "LGPL"
-      # }),
+      Modifier.new("Uses custom License", "", -3, Proc.new { |hash|
+        hash[:license_short_name] == "WTFPL" || hash[:license_short_name] == "Custom"
+      })
     ]
   end
   
