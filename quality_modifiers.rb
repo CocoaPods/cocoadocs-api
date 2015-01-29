@@ -22,39 +22,39 @@ class QualityModifiers
   def modifiers
     [ 
       Modifier.new("Test Expectations / Line of Code", "", -20, Proc.new { |hash|
-        0.045 < hash[:total_test_expectations] / hash[:total_lines_of_code]
+        0.045 < hash[:total_test_expectations].to_i / hash[:total_lines_of_code].to_i
       }),
 
       Modifier.new("Download size", "", -10, Proc.new { |hash|
-        hash[:download_size] > 10000
+        hash[:download_size].to_i > 10000
       }),
 
       Modifier.new("Lines of Code / File", "", -8, Proc.new { |hash|
-        hash[:total_lines_of_code] / hash[:total_files] > 250
+        hash[:total_lines_of_code].to_i / hash[:total_files].to_i > 250
       }),
     
       Modifier.new("Great Documentation", "", 3, Proc.new { |hash|
-        hash[:doc_percent] > 90
+        hash[:doc_percent].to_i > 90
       }),
     
       Modifier.new("Documentation", "", 2, Proc.new { |hash|
-        hash[:doc_percent] > 60
+        hash[:doc_percent].to_i > 60
       }),
     
       Modifier.new("Badly Documentated", "", -8, Proc.new { |hash|
-        hash[:doc_percent] < 20
+        hash[:doc_percent].to_i < 20
       }),
     
       Modifier.new("Empty README", "", -8, Proc.new { |hash|
-        hash[:readme_complexity] < 20
+        hash[:readme_complexity].to_i < 20
       }),
 
       Modifier.new("Minimal README", "", -5, Proc.new { |hash|
-        hash[:readme_complexity] < 35
+        hash[:readme_complexity].to_i < 35
       }),
     
       Modifier.new("Minimal README", "", 5, Proc.new { |hash|
-        hash[:readme_complexity] > 75
+        hash[:readme_complexity].to_i > 75
       }),
     
       Modifier.new("Built in Swift", "", 5, Proc.new { |hash|
