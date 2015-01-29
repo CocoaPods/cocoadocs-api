@@ -79,14 +79,14 @@
     </object>
     <object type="LMREQUEST" id="z104">
         <attribute name="uuid" type="string">41F2B7EF-08AD-45EB-9065-1A31BF4EB132</attribute>
-        <attribute name="url" type="string">http://localhost:3333/pod/JSErrorStackTrace</attribute>
+        <attribute name="url" type="string">http://localhost:3333/pods/JSErrorStackTrace</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"download_size\\":\\"1111\\",\\"total_files\\":\\"111\\",\\"total_comments\\":\\"122\\",\\"total_lines_of_code\\":\\"132\\",\\"doc_percent\\":\\"13\\",\\"readme_complexity\\":\\"24\\",\\"initial_commit_date\\":\\"[{\\\\\\"data\\\\\\":{\\\\\\"format\\\\\\":2,\\\\\\"customFormat\\\\\\":\\\\\\"\\\\\\",\\\\\\"now\\\\\\":true,\\\\\\"useTSeparator\\\\\\":1,\\\\\\"date\\\\\\":1420581522.200108,\\\\\\"delta\\\\\\":0,\\\\\\"useZForUTC\\\\\\":0},\\\\\\"identifier\\\\\\":\\\\\\"com.luckymarmot.TimestampDynamicValue\\\\\\"}]\\",\\"download_size\\":\\"1111\\",\\"rendered_readme_url\\":\\"http:\\\\\\/\\\\\\/place\\",\\"license_canonical_url\\":\\"http:\\\\\\/\\\\\\/place.com\\",\\"license_short_name\\":\\"ORT\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"download_size\\":1111,\\"total_files\\":111,\\"total_comments\\":122,\\"total_lines_of_code\\":132,\\"doc_percent\\":13,\\"readme_complexity\\":24,\\"initial_commit_date\\":\\"[{\\\\\\"data\\\\\\":{\\\\\\"format\\\\\\":2,\\\\\\"customFormat\\\\\\":\\\\\\"\\\\\\",\\\\\\"now\\\\\\":true,\\\\\\"useTSeparator\\\\\\":1,\\\\\\"date\\\\\\":1420581522.200108,\\\\\\"delta\\\\\\":0,\\\\\\"useZForUTC\\\\\\":0},\\\\\\"identifier\\\\\\":\\\\\\"com.luckymarmot.TimestampDynamicValue\\\\\\"}]\\",\\"download_size\\":1111,\\"rendered_readme_url\\":\\"http:\\\\\\/\\\\\\/place\\",\\"license_canonical_url\\":\\"http:\\\\\\/\\\\\\/place.com\\",\\"license_short_name\\":\\"ORT\\",\\"dominant_language\\":\\"OBJC\\",\\"total_test_expectations\\":213}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">CocoaDocs</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM"></relationship>

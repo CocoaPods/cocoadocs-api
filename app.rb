@@ -2,6 +2,7 @@ require 'sinatra/base'
 require 'json'
 require 'net/http'
 require "sinatra/reloader" if :development
+require_relative "quality_modifiers"
 
 class App < Sinatra::Base
   configure :development do
@@ -57,9 +58,12 @@ class App < Sinatra::Base
       :download_size => metrics["download_size"],
       :license_short_name => metrics["license_short_name"],
       :license_canonical_url => metrics["license_canonical_url"],
-      :total_test_expectations => metrics["total_test_expectations"]
+      :total_test_expectations => metrics["total_test_expectations"],
+      :dominant_language => metrics["dominant_language"],
     }
-
+    
+    data[:quality_estimate] = QualityModifiers.new.generate(data)
+    
     # update or create a metrics
     metric = cocoadocs_pod_metrics.where(cocoadocs_pod_metrics[:pod_id] => pod.id).first
     if metric
