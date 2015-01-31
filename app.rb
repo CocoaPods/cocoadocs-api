@@ -5,7 +5,7 @@ require_relative "quality_modifiers"
 
 class App < Sinatra::Base
   configure :development do
-    require "sinatra/reloader" 
+    require "sinatra/reloader"
     register Sinatra::Reloader
   end
   
@@ -62,7 +62,8 @@ class App < Sinatra::Base
       :dominant_language => metrics["dominant_language"],
     }
     
-    data[:quality_estimate] = QualityModifiers.new.generate(data)
+    github_stats = github_pod_metrics.where(github_pod_metrics[:pod_id] => pod.id).first
+    data[:quality_estimate] = QualityModifiers.new.generate(data, github_stats)
     
     # update or create a metrics
     metric = cocoadocs_pod_metrics.where(cocoadocs_pod_metrics[:pod_id] => pod.id).first
@@ -74,8 +75,6 @@ class App < Sinatra::Base
     end
     
     metric = cocoadocs_pod_metrics.where(cocoadocs_pod_metrics[:pod_id] => pod.id).first
-    
-
   end
   
   post '/pods/:name/cloc' do      
