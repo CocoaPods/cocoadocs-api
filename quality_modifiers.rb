@@ -13,7 +13,7 @@ end
 class QualityModifiers
     
   def generate hash, github_stats
-    modify_value = 0
+    modify_value = 50
     modifiers.each do |modifier|
       modify_value += modifier.function.call(hash, github_stats) ? modifier.modifier : 0
     end
