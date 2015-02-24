@@ -51,7 +51,7 @@ class QualityModifiers
         hash[:doc_percent].to_i > 60
       }),
 
-      Modifier.new("Badly Documentated", "", -8, Proc.new { |hash, stats|
+      Modifier.new("Badly Documented", "", -8, Proc.new { |hash, stats|
         hash[:doc_percent].to_i < 20
       }),
 
@@ -63,7 +63,7 @@ class QualityModifiers
         hash[:readme_complexity].to_i < 35
       }),
 
-      Modifier.new("Minimal README", "", 5, Proc.new { |hash, stats|
+      Modifier.new("Great README", "", 5, Proc.new { |hash, stats|
         hash[:readme_complexity].to_i > 75
       }),
 
