@@ -5,7 +5,7 @@
     <databaseInfo>
         <version>134481920</version>
         <UUID>268F8BD4-0291-4D7F-AAD9-6D0088DC3D73</UUID>
-        <nextObjectID>108</nextObjectID>
+        <nextObjectID>110</nextObjectID>
         <metadata>
             <plist version="1.0">
                 <dict>
@@ -107,16 +107,16 @@
     </object>
     <object type="LMREQUEST" id="z107">
         <attribute name="uuid" type="string">B3690F3C-095A-4024-9CAB-71647C367457</attribute>
-        <attribute name="url" type="string">http://localhost:3333/pod/ORStackView/cloc</attribute>
+        <attribute name="url" type="string">http://localhost:3333/pods/ORStackView/stats</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
         <attribute name="redirectauthorization" type="bool">0</attribute>
-        <attribute name="method" type="string">POST</attribute>
+        <attribute name="method" type="string">GET</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
         <attribute name="body" type="string">[{"data":{"json":"[{\\"language\\":\\"Objective C\\",\\"comments\\":12,\\"lines_of_code\\":332,\\"files\\":10},{\\"language\\":\\"Swift\\",\\"comments\\":12,\\"lines_of_code\\":222,\\"files\\":2}]"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
-        <attribute name="order" type="int64">1</attribute>
-        <attribute name="name" type="string">CocoaDocs Duplicate</attribute>
+        <attribute name="order" type="int64">2</attribute>
+        <attribute name="name" type="string">CocoaDocs Stats</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z108"></relationship>
@@ -130,5 +130,31 @@
         <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z107"></relationship>
+    </object>
+    <object type="LMREQUEST" id="z109">
+        <attribute name="uuid" type="string">5A94AD91-895A-4B85-A6A3-0BAF1348C99C</attribute>
+        <attribute name="url" type="string">http://localhost:3333/pods/JSErrorStackTrace</attribute>
+        <attribute name="storecookies" type="bool">1</attribute>
+        <attribute name="sendcookies" type="bool">1</attribute>
+        <attribute name="redirectmethod" type="bool">0</attribute>
+        <attribute name="redirectauthorization" type="bool">0</attribute>
+        <attribute name="method" type="string">POST</attribute>
+        <attribute name="followredirects" type="bool">0</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"download_size\\":1111,\\"total_files\\":111,\\"total_comments\\":122,\\"total_lines_of_code\\":132,\\"doc_percent\\":13,\\"readme_complexity\\":24,\\"initial_commit_date\\":\\"[{\\\\\\"data\\\\\\":{\\\\\\"format\\\\\\":2,\\\\\\"customFormat\\\\\\":\\\\\\"\\\\\\",\\\\\\"now\\\\\\":true,\\\\\\"useTSeparator\\\\\\":1,\\\\\\"date\\\\\\":1420581522.200108,\\\\\\"delta\\\\\\":0,\\\\\\"useZForUTC\\\\\\":0},\\\\\\"identifier\\\\\\":\\\\\\"com.luckymarmot.TimestampDynamicValue\\\\\\"}]\\",\\"download_size\\":1111,\\"rendered_readme_url\\":\\"http:\\\\\\/\\\\\\/place\\",\\"license_canonical_url\\":\\"http:\\\\\\/\\\\\\/place.com\\",\\"license_short_name\\":\\"ORT\\",\\"dominant_language\\":\\"OBJC\\",\\"total_test_expectations\\":213}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="order" type="int64">1</attribute>
+        <attribute name="name" type="string">CocoaDocs CLOC</attribute>
+        <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM"></relationship>
+        <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z110"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z110">
+        <attribute name="value" type="string"></attribute>
+        <attribute name="order" type="int64">0</attribute>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z109"></relationship>
     </object>
 </database>
