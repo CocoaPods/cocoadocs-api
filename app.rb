@@ -106,8 +106,11 @@ class App < Sinatra::Base
     metric = cocoadocs_pod_metrics.where(cocoadocs_pod_metrics[:pod_id] => pod.id).first
     halt 404, "Metrics for Pod not found." unless metric
 
+    github_stats = github_pod_metrics.where(github_pod_metrics[:pod_id] => pod.id).first
+    halt 404, "Github Stats for Pod not found." unless metric
+
     QualityModifiers.new.modifiers.map do |modifier|
-      modifier.to_json(metric)
+      modifier.to_json(metric, github_stats)
     end.to_json
   end
 

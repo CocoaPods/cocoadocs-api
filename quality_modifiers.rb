@@ -8,12 +8,12 @@ class Modifier
     @function = function
   end
 
-  def to_json(hash)
+  def to_json(hash, pod_stats)
     {
       "title" => title,
       "description" => description,
       "modifier" => modifier,
-      "applies_for_pod" => function.call(hash)
+      "applies_for_pod" => function.call(hash, pod_stats)
     }
   end
 
