@@ -69,11 +69,11 @@ class QualityModifiers
       }),
 
       Modifier.new("Built in Swift", "Swift is where things are heading.", 5, Proc.new { |hash, stats|
-        hash[:dominant_langauge] == "Swift"
+        hash[:dominant_language] == "Swift"
       }),
 
       Modifier.new("Built in Objective-C++", "Usage of Objective-C++ makes it difficult for others to contribute.", -5, Proc.new { |hash, stats|
-        hash[:dominant_langauge] == "Objective-C++"
+        hash[:dominant_language] == "Objective-C++"
       }),
 
       Modifier.new("Uses GPL", "There are legal issues around distributing GPL'd code in App Store environments", -20, Proc.new { |hash, stats|
