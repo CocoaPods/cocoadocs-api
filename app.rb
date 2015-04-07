@@ -109,9 +109,17 @@ class App < Sinatra::Base
     github_stats = github_pod_metrics.where(github_pod_metrics[:pod_id] => pod.id).first
     halt 404, "Github Stats for Pod not found." unless metric
 
-    QualityModifiers.new.modifiers.map do |modifier|
+    result = {
+      base: {
+        score: 50,
+        description: 'All pods start with 50 points on the quality estimate, ' \
+        'we then add or remove to the score based on the following rules'
+      }
+    }
+    result[:metrics] = QualityModifiers.new.modifiers.map do |modifier|
       modifier.to_json(metric, github_stats)
-    end.to_json
-  end
+    end
 
+    result.to_json
+  end
 end
