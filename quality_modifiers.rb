@@ -31,9 +31,14 @@ class QualityModifiers
 
   def modifiers
     [
-      Modifier.new("Test Expectations / Line of Code", 
+      Modifier.new("Test Expectations / Line of Code",
                     "Testing a library shows that the developers care about long term quality on a project as internalized logic is made explicit via testing.", -20, Proc.new { |hash, stats|
-        0.045 < hash[:total_test_expectations].to_i / hash[:total_lines_of_code].to_i
+        lines = hash[:total_lines_of_code].to_i
+        if lines
+          0.045 < hash[:total_test_expectations].to_i / lines
+        else
+          false
+        end
       }),
 
       Modifier.new("Download size", "Too big of a library can impact startup time, and add redundant assets.", -10, Proc.new { |hash, stats|
@@ -41,7 +46,12 @@ class QualityModifiers
       }),
 
       Modifier.new("Lines of Code / File", "Smaller, more composeable classes tend to be easier to understand.", -8, Proc.new { |hash, stats|
-        hash[:total_lines_of_code].to_i / hash[:total_files].to_i > 250
+        files = hash[:total_files].to_i
+        if files
+          hash[:total_lines_of_code].to_i / hash[:total_files].to_i > 250
+        else
+          false
+        end        
       }),
 
       Modifier.new("Great Documentation", "A full suite of documentation makes it easier to use a library.", 3, Proc.new { |hash, stats|
