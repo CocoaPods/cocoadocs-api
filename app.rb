@@ -59,7 +59,8 @@ class App < Sinatra::Base
     }
 
     github_stats = github_pod_metrics.where(github_pod_metrics[:pod_id] => pod.id).first
-    data[:quality_estimate] = QualityModifiers.new.generate(data, github_stats)
+    owners = owners_pods.outer_join(:owners).on(:owner_id => :id).where(:pod_id => pod.id)
+    data[:quality_estimate] = QualityModifiers.new.generate(data, github_stats, owners)
 
     # update or create a metrics
     metric = cocoadocs_pod_metrics.where(cocoadocs_pod_metrics[:pod_id] => pod.id).first
@@ -71,6 +72,10 @@ class App < Sinatra::Base
     end
 
     metric = cocoadocs_pod_metrics.where(cocoadocs_pod_metrics[:pod_id] => pod.id).first
+  end
+
+  get "/" do
+    "Hello"
   end
 
   # Sets the CocoaDocs CLOC metrics for something
@@ -108,7 +113,10 @@ class App < Sinatra::Base
     halt 404, "Metrics for Pod not found." unless metric
 
     github_stats = github_pod_metrics.where(github_pod_metrics[:pod_id] => pod.id).first
-    halt 404, "Github Stats for Pod not found." unless metric
+    halt 404, "Github Stats for Pod not found." unless github_stats
+
+    owners = owners_pods.outer_join(:owners).on(:owner_id => :id).where(:pod_id => pod.id)
+    halt 404, "Owners for Pod not found." unless owners
 
     result = {
       base: {
@@ -117,8 +125,9 @@ class App < Sinatra::Base
         'we then add or remove to the score based on the following rules'
       }
     }
+
     result[:metrics] = QualityModifiers.new.modifiers.map do |modifier|
-      modifier.to_json(metric, github_stats)
+      modifier.to_json(metric, github_stats, owners)
     end
 
     result.to_json

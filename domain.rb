@@ -21,12 +21,14 @@ DB = Flounder.domain connection do |dom|
   # Trunk
   #
   dom.entity :pods, :pod, 'pods'
+  dom.entity :owners, :owner, 'owners'
+  dom.entity :commits, :commit, 'commits'
+  dom.entity :pod_versions, :pod_version, 'pod_versions'
+  dom.entity :owners_pods, :owners_pod, 'owners_pods'
 
   # CocoaDocs
   #
   dom.entity :cocoadocs_pod_metrics, :cocoadocs_pod_metric, 'cocoadocs_pod_metrics'
   dom.entity :cocoadocs_cloc_metrics, :cocoadocs_cloc_metric, 'cocoadocs_cloc_metrics'
   dom.entity :github_pod_metrics, :github_pod_metric, 'github_pod_metrics'
-  dom.entity :commits, :commit, 'commits'
-  dom.entity :pod_versions, :pod_version, 'pod_versions'
 end

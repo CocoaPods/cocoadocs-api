@@ -58,3 +58,6 @@ DEPENDENCIES
   rake
   sinatra
   thin
+
+BUNDLED WITH
+   1.10.0
