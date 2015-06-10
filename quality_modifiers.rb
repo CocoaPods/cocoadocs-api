@@ -74,7 +74,7 @@ class QualityModifiers
       }),
 
       Modifier.new("Uses GPL", "There are legal issues around distributing GPL'd code in App Store environments.", -20, Proc.new { |hash, stats, owners|
-        hash[:license_short_name] == "GPL 3" ||  hash[:license_short_name] == "LGPL 3"
+        hash[:license_short_name] =~ /GPL/i
       }),
 
       Modifier.new("Uses WTFPL", "WTFPL was denied as an OSI approved license. Thus it is not classed as code license.", -5, Proc.new { |hash, stats, owners|
