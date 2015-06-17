@@ -85,7 +85,7 @@ class QualityModifiers
         stats[:open_issues].to_i > 50
       }),
 
-      Modifier.new("Independently builds through xcode", "Means that the library can independently be built.", 5, Proc.new { |hash, stats, owners|
+      Modifier.new("Independently builds through Xcode", "Means that the library can independently be built.", 5, Proc.new { |hash, stats, owners|
         hash[:carthage_support]
       }),
       Modifier.new("Test Expectations / Line of Code",
