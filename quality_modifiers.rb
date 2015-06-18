@@ -98,7 +98,7 @@ class QualityModifiers
         end
       }),
 
-      Modifier.new("Download size", "Too big of a library can impact startup time, and add redundant assets.", -10, Proc.new { |hash, stats, owners|
+      Modifier.new("Download size", "Too big of a library (usually caused by media assets) can impact a client app's startup time; too big of a repository (including files excluded by the Podspec) slows down CocoaPods on installation", -10, Proc.new { |hash, stats, owners|
         hash[:download_size].to_i > 10000
       }),
 
