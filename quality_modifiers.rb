@@ -99,8 +99,8 @@ class QualityModifiers
         end
       }),
 
-      Modifier.new("Download size", "Too big of a library (usually caused by media assets) can impact a client app's startup time; too big of a repository (including files excluded by the Podspec) slows down CocoaPods on installation", -10, Proc.new { |hash, stats, owners|
-        hash[:download_size].to_i > 10000
+      Modifier.new("Install size", "Too big of a library (usually caused by media assets) can impact an app's startup time.", -10, Proc.new { |hash, stats, owners|
+        hash[:install_size].to_i > 10000
       }),
 
       Modifier.new("Lines of Code / File", "Smaller, more composeable classes tend to be easier to understand.", -8, Proc.new { |hash, stats, owners|
