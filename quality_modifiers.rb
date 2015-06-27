@@ -53,6 +53,7 @@ class QualityModifiers
         hash[:doc_percent].to_i < 20
       }),
 
+      # If you want to see your current README complexity, use http://clayallsopp.github.io/readme-score/
       Modifier.new("Empty README", "The README is the front page of a library. To have this applied you may have a very empty README.", -8, Proc.new { |hash, stats, owners|
         hash[:readme_complexity].to_i < 25
       }),
