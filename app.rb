@@ -55,7 +55,7 @@ class App < Sinatra::Base
       :license_canonical_url => metrics["license_canonical_url"],
       :total_test_expectations => metrics["total_test_expectations"],
       :dominant_language => metrics["dominant_language"],
-      :carthage_support => metrics["carthage_support"],
+      :builds_independently => metrics["builds_independently"],
     }
 
     github_stats = github_pod_metrics.where(github_pod_metrics[:pod_id] => pod.id).first
