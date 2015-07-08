@@ -192,9 +192,10 @@ class QualityModifiers
       }),
 
 ### Ownership
-# CocoaPods isn't curated, and for the larger SDKs people will create un-official Pods.
+#
+# The CocoaPods Specs Repo isn't curated, and for the larger SDKs people will create un-official Pods.
 # We needed a way to state that this Pod has come for the authors of the library, so, we have verified accounts.
-# These are useful for the companies the size of; Facebook, Google, Amazon and Dropbox.
+# These are useful for the companies the size of; Google, Facebook, Amazon and Dropbox.
 # We are applying this very sparingly, but if you'd like to apply to have your trunk account
 # verified, email [info@cocoapods.org](mailto:info@cocoapods.org).
 
@@ -202,7 +203,7 @@ class QualityModifiers
         owners.find { |owner| owner.owner.is_verified } != nil
       }),
 
-### Misc
+### Misc - GitHub specific
 
 # This is an experiment in figuring out if a project is abandoned. Issues could be used as a TODO list,
 # but leaving 50+ un-opened feels a bit off. It's more likely that the project has been sunsetted.
@@ -210,6 +211,8 @@ class QualityModifiers
       Modifier.new("Lots of open issues", "A project with a lot of open issues is generally abandoned. If it is a popular library, then it is usually offset by the popularity modifiers.", -8, Proc.new { |hash, stats, owners|
         stats[:open_issues].to_i > 50
       }),
+
+# This metric checks for frameworks that are genererated when running `xcodebuild` within the downloaded repo. You need to turn on shared schemes for the framework in order for it to be registered.
 
       Modifier.new("Independently builds through Xcode", "Meaning that the library can independently be built after a git clone.", 5, Proc.new { |hash, stats, owners|
         hash[:builds_independently]
