@@ -55,6 +55,7 @@ class App < Sinatra::Base
       :license_canonical_url => metrics["license_canonical_url"],
       :total_test_expectations => metrics["total_test_expectations"],
       :dominant_language => metrics["dominant_language"],
+      :is_vendored_framework => metrics["is_vendored_framework"],
       :builds_independently => metrics["builds_independently"],
     }
 
