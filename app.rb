@@ -47,6 +47,7 @@ class App < Sinatra::Base
       :doc_percent => metrics["doc_percent"],
       :readme_complexity => metrics["readme_complexity"],
       :rendered_readme_url => metrics["rendered_readme_url"],
+      :rendered_changelog_url => metrics["rendered_changelog_url"],
       :initial_commit_date => metrics["initial_commit_date"],
       :rendered_readme_url => metrics["rendered_readme_url"],
       :updated_at => Time.new,
@@ -77,30 +78,6 @@ class App < Sinatra::Base
 
   get "/" do
     "Hello"
-  end
-
-  # Sets the CocoaDocs CLOC metrics for something
-  #
-
-  post '/pods/:name/cloc' do
-    clocs = JSON.load(request.body)
-    pod = pods.where(pods[:name] => params[:name]).first
-
-    unless pod
-      halt 404, "Pod not found."
-    end
-
-    cloc_metrics = cocoadocs_cloc_metrics
-    clocs.map do |cloc_hash|
-      cloc_hash[:pod_id] = pod.id
-      clocs_db_result = cloc_metrics.where(cloc_metrics[:pod_id] => pod.id, cloc_metrics[:language] => cloc_hash["language"]).first
-
-      if clocs_db_result
-        cloc_metrics.update(cloc_hash).where(id: clocs_db_result.id).kick.to_json
-      else
-        cloc_metrics.insert(cloc_hash).kick.to_json
-      end
-    end
   end
 
   # An API route that shows you the reasons why a library scored X
