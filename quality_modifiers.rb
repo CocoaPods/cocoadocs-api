@@ -119,6 +119,15 @@ class QualityModifiers
         hash[:readme_complexity].to_i < 25
       }),
 
+### CHANGELOG 
+#
+# Having a CHANGELOG means that its easier for people for compare older verions, as a metric of quality this generally 
+# shows a more mature library with care taken by the maintainer to show changes.
+
+      Modifier.new("Has a CHANGELOG", "CHANGELOGs make it easy to see the differences between versions of your library.", 5, Proc.new { |hash, stats, owners|
+        hash[:rendered_changelog_url] != nil
+      }),
+
 ### Language Choices
 #
 # Swift is slowly happening. We wanted to positively discriminate people writing libraries in Swift.
@@ -196,8 +205,7 @@ class QualityModifiers
 # The CocoaPods Specs Repo isn't curated, and for the larger SDKs people will create un-official Pods.
 # We needed a way to state that this Pod has come for the authors of the library, so, we have verified accounts.
 # These are useful for the companies the size of; Google, Facebook, Amazon and Dropbox.
-# We are applying this very sparingly, but if you'd like to apply to have your trunk account
-# verified, email [info@cocoapods.org](mailto:info@cocoapods.org).
+# We are applying this very sparingly, and have been reaching out to companies individually.
 
       Modifier.new("Verified Owner", "When a pod comes from a large company with an official account.", 20, Proc.new { |hash, stats, owners|
         owners.find { |owner| owner.owner.is_verified } != nil
