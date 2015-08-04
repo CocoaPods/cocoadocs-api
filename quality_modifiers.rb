@@ -119,9 +119,9 @@ class QualityModifiers
         hash[:readme_complexity].to_i < 25
       }),
 
-### CHANGELOG 
+### CHANGELOG
 #
-# Having a CHANGELOG means that its easier for people for compare older verions, as a metric of quality this generally 
+# Having a CHANGELOG means that its easier for people for compare older verions, as a metric of quality this generally
 # shows a more mature library with care taken by the maintainer to show changes.
 
       Modifier.new("Has a CHANGELOG", "CHANGELOGs make it easy to see the differences between versions of your library.", 5, Proc.new { |hash, stats, owners|
@@ -173,9 +173,10 @@ class QualityModifiers
       }),
 
       Modifier.new("Test Expectations / Line of Code", "Having more code covered by tests is great.", 10, Proc.new { |hash, stats, owners|
-        lines = hash[:total_lines_of_code].to_i
+        lines = hash[:total_lines_of_code].to_f
+        expectations = hash[:total_test_expectations].to_f
         if lines != 0
-          0.045 < hash[:total_test_expectations].to_i / lines
+          0.045 < (expectations / lines)
         else
           false
         end
@@ -194,7 +195,7 @@ class QualityModifiers
       Modifier.new("Lines of Code / File", "Smaller, more composeable classes tend to be easier to understand.", -8, Proc.new { |hash, stats, owners|
         files = hash[:total_files].to_i
         if files != 0
-          hash[:total_lines_of_code].to_i / hash[:total_files].to_i > 250
+          (hash[:total_lines_of_code].to_f / hash[:total_files].to_f) > 250
         else
           false
         end
