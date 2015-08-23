@@ -47,6 +47,7 @@ class App < Sinatra::Base
       :doc_percent => metrics["doc_percent"],
       :readme_complexity => metrics["readme_complexity"],
       :rendered_readme_url => metrics["rendered_readme_url"],
+      :rendered_summary => metrics["rendered_summary"],
       :rendered_changelog_url => metrics["rendered_changelog_url"],
       :initial_commit_date => metrics["initial_commit_date"],
       :updated_at => Time.new,
