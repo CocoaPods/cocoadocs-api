@@ -102,7 +102,8 @@ class QualityModifiers
 # library can do.
 #
 # Strange as it sounds, if you are providing a binary CocoaPod, it is worth embedding your README.md
-# inside the zip. This means CocoaPods can use it to generate your Pod page.
+# inside the zip. This means CocoaPods can use it to generate your Pod page. We look for a `README{,.md,.markdown}`
+# for two directories from the root of your project.
 #
 # _Note:_ These modifiers are still in flux a bit, as we want to take a Podspec's `documentation_url` into account.
 #
@@ -122,7 +123,8 @@ class QualityModifiers
 ### CHANGELOG
 #
 # Having a CHANGELOG means that its easier for people for compare older verions, as a metric of quality this generally
-# shows a more mature library with care taken by the maintainer to show changes.
+# shows a more mature library with care taken by the maintainer to show changes. We look for a `CHANGELOG{,.md,.markdown}`
+# for two directories from the root of your project.
 
       Modifier.new("Has a CHANGELOG", "CHANGELOGs make it easy to see the differences between versions of your library.", 5, Proc.new { |hash, stats, owners|
         hash[:rendered_changelog_url] != nil
