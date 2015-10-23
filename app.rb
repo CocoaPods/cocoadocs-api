@@ -20,19 +20,14 @@ class App < Sinatra::Base
     end
   end
 
-  # Filter actions for only being ran from CD in prod / testing
-  #
-  before do
-    if ENV['COCOADOCS_SERVER_ONLY'] && ENV['RACK_ENV'] != "development" && request.ip != COCOADOCS_IP
-      halt 401, "You're not CocoaDocs!\n"
-    end
-  end
-
-
   # Sets the CocoaDocs metrics for something
   #
   post '/pods/:name' do
     metrics = JSON.load(request.body)
+
+    if ENV['COCOADOCS_TOKEN'] != metrics["token"]
+      halt 401, "You're not CocoaDocs!\n"
+    end
 
     pod = pods.where(pods[:name] => params[:name]).first
     unless pod
