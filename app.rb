@@ -77,7 +77,7 @@ class App < Sinatra::Base
   QUALITY_WORTHY_OF_A_TWEET = 70
 
   def tweet_if_needed(pod_id, estimate)
-    return if QUALITY_WORTHY_OF_A_TWEET < estimate
+    return if estimate < QUALITY_WORTHY_OF_A_TWEET
 
     version = pod_versions.where(pod_id: pod_id).sort_by { |v| Pod::Version.new(v.name) }.last
     commit = commits.where(pod_version_id: version.id, deleted_file_during_import: false).first
