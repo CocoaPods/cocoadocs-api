@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 ruby '2.1.3'
 
+gem 'twitter'
+gem 'cocoapods-core'
 gem 'sinatra'
 gem 'flounder', require: true
 gem 'rake', require: true

@@ -1,7 +1,9 @@
 require 'sinatra/base'
 require 'json'
 require 'net/http'
+require 'cocoapods-core'
 require_relative "quality_modifiers"
+require_relative "twitter_notifier"
 
 class App < Sinatra::Base
 
@@ -66,9 +68,22 @@ class App < Sinatra::Base
     else
       data[:created_at] = Time.new
       cocoadocs_pod_metrics.insert(data).kick.to_json
+      tweet_if_needed pod.id, data[:quality_estimate]
     end
 
     metric = cocoadocs_pod_metrics.where(cocoadocs_pod_metrics[:pod_id] => pod.id).first
+  end
+
+  QUALITY_WORTHY_OF_A_TWEET = 70
+
+  def tweet_if_needed(pod_id, estimate)
+    return if QUALITY_WORTHY_OF_A_TWEET < estimate
+
+    version = pod_versions.where(pod_id: pod_id).sort_by { |v| Pod::Version.new(v.name) }.last
+    commit = commits.where(pod_version_id: version.id, deleted_file_during_import: false).first
+    pod = Pod::Specification.from_json commit.specification_data
+    notifier = DefinitelyNotCopiedFromFeedsApp::TwitterNotifier.new()
+    notifier.tweet pod
   end
 
   get "/" do
