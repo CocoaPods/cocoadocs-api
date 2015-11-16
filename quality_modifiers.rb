@@ -112,7 +112,7 @@ class QualityModifiers
         hash[:readme_complexity].to_i > 75
       }),
 
-      Modifier.new("Minimal README", "The README is an overview for a libraries API. Providing a minimal README means that it can be hard to understand what the library does.", -5, Proc.new { |hash, stats, owners|
+      Modifier.new("Minimal README", "The README is an overview for a library's API. Providing a minimal README means that it can be hard to understand what the library does.", -5, Proc.new { |hash, stats, owners|
         hash[:readme_complexity].to_i < 40
       }),
 
