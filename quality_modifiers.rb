@@ -191,7 +191,7 @@ class QualityModifiers
         hash[:install_size].to_i > 10000
       }),
 
-# CocoaPods makes it easy to create a library with mutliple files, we wanted to encourage adoption of smaller
+# CocoaPods makes it easy to create a library with multiple files, we wanted to encourage adoption of smaller
 # more composable libraries.
 
       Modifier.new("Lines of Code / File", "Smaller, more composeable classes tend to be easier to understand.", -8, Proc.new { |hash, stats, owners|
