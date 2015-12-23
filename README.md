@@ -18,3 +18,5 @@ It has three API routes:
 * `get '/''` -> Says Hello, so you know all is good.
 * `post '/pods/:name'` -> Submits JSON data + token from CocoaDocs for parsing and moving into the db.
 * `get '/pods/:name/stats'` -> Returns a JSON array of the QIs that apply to a Pod. This is so we can build user interfaces like the one seen on CocoaPods.org.
+
+As QIs are changed, they can be updated by `rake update_all_qis`.
