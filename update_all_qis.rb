@@ -16,9 +16,9 @@ pods.where(:deleted => false).each do |pod|
   # Grab all the usual metadata
   version = pod_versions.where(pod_id: pod.id, deleted: false).sort_by { |v| Pod::Version.new(v.name) }.last
   commit = commits.where(pod_version_id: version.id, deleted_file_during_import: false).first
-  next unless pod
+  next unless commit
   next unless commit.specification_data
-  
+
   spec = Pod::Specification.from_json commit.specification_data
 
   metric = cocoadocs_pod_metrics.where(cocoadocs_pod_metrics[:pod_id] => pod.id).first
