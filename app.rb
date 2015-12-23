@@ -7,8 +7,6 @@ require_relative "twitter_notifier"
 
 class App < Sinatra::Base
 
-  COCOADOCS_IP = ENV['COCOADOCS_IP'] || '199.229.252.196'
-
   # Set up dynamic part.
   #
   require_relative 'domain'
@@ -36,6 +34,11 @@ class App < Sinatra::Base
       halt 404, "Pod not found for #{params[:name]}."
     end
 
+    # Support redirecting to the pods homepage if we can't do it.
+    version = pod_versions.where(pod_id: pod.id, deleted: false).sort_by { |v| Pod::Version.new(v.name) }.last
+    commit = commits.where(pod_version_id: version.id, deleted_file_during_import: false).first
+    spec = Pod::Specification.from_json commit.specification_data
+
     data = {
       :pod_id => pod.id,
       :total_files => metrics["total_files"],
@@ -61,7 +64,7 @@ class App < Sinatra::Base
     github_stats = github_pod_metrics.where(github_pod_metrics[:pod_id] => pod.id).first
     cocoapods_stats = stats_metrics.where(pod_id: pod.id).first
     owners = owners_pods.outer_join(:owners).on(:owner_id => :id).where(:pod_id => pod.id)
-    data[:quality_estimate] = QualityModifiers.new.generate(data, github_stats, cocoapods_stats, cocoapods_stats, owners)
+    data[:quality_estimate] = QualityModifiers.new.generate(data, github_stats, cocoapods_stats, owners)
 
     # update or create a metrics
     metric = cocoadocs_pod_metrics.where(cocoadocs_pod_metrics[:pod_id] => pod.id).first
@@ -70,7 +73,7 @@ class App < Sinatra::Base
     else
       data[:created_at] = Time.new
       cocoadocs_pod_metrics.insert(data).kick.to_json
-      tweet_if_needed pod.id, data[:quality_estimate]
+      tweet_if_needed spec, data[:quality_estimate]
     end
 
     metric = cocoadocs_pod_metrics.where(cocoadocs_pod_metrics[:pod_id] => pod.id).first
@@ -78,14 +81,10 @@ class App < Sinatra::Base
 
   QUALITY_WORTHY_OF_A_TWEET = 70
 
-  def tweet_if_needed(pod_id, estimate)
+  def tweet_if_needed(spec, estimate)
     return if estimate < QUALITY_WORTHY_OF_A_TWEET
-
-    version = pod_versions.where(pod_id: pod_id).sort_by { |v| Pod::Version.new(v.name) }.last
-    commit = commits.where(pod_version_id: version.id, deleted_file_during_import: false).first
-    pod = Pod::Specification.from_json commit.specification_data
     notifier = DefinitelyNotCopiedFromFeedsApp::TwitterNotifier.new()
-    notifier.tweet pod
+    notifier.tweet spec
   end
 
   get "/" do
@@ -98,6 +97,11 @@ class App < Sinatra::Base
   get '/pods/:name/stats' do
     pod = pods.where(pods[:name] => params[:name]).first
     halt 404, "Pod not found." unless pod
+
+    version = pod_versions.where(pod_id: pod.id, deleted: false).sort_by { |v| Pod::Version.new(v.name) }.last
+    commit = commits.where(pod_version_id: version.id, deleted_file_during_import: false).first
+    halt 404, "Commit for latest version not found." unless pod
+    spec = Pod::Specification.from_json commit.specification_data
 
     metric = cocoadocs_pod_metrics.where(cocoadocs_pod_metrics[:pod_id] => pod.id).first
     halt 404, "Metrics for Pod not found." unless metric
@@ -120,7 +124,7 @@ class App < Sinatra::Base
     }
 
     result[:metrics] = QualityModifiers.new.modifiers.map do |modifier|
-      modifier.to_json(metric, github_stats, cocoapods_stats, owners)
+      modifier.to_json(spec, metric, github_stats, cocoapods_stats, owners)
     end
 
     result.to_json
