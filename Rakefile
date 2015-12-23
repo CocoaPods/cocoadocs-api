@@ -16,3 +16,8 @@ desc "Deploy to heroku"
 task :deploy do
   sh "git push heroku master "
 end
+
+desc "Updates the QIs to the number if it was ran now"
+task :update_all_qis do
+  sh "foreman run bundle exec ruby update_all_qis.rb"
+end
