@@ -8,12 +8,12 @@ class Modifier
     @function = function
   end
 
-  def to_json(hash, pod_stats, cp_stats, owners)
+  def to_json(cd_stats, pod_stats, cp_stats, owners)
     {
       "title" => title,
       "description" => description,
       "modifier" => modifier,
-      "applies_for_pod" => function.call(hash, pod_stats, cp_stats, owners)
+      "applies_for_pod" => function.call(cd_stats, pod_stats, cp_stats, owners)
     }
   end
 
@@ -21,10 +21,10 @@ end
 
 class QualityModifiers
 
-  def generate hash, github_stats, cp_stats, owners
+  def generate cd_stats, github_stats, cp_stats, owners
     modify_value = 50
     modifiers.each do |modifier|
-      modify_value += modifier.function.call(hash, github_stats, cp_stats, owners) ? modifier.modifier : 0
+      modify_value += modifier.function.call(cd_stats, github_stats, cp_stats, owners) ? modifier.modifier : 0
     end
     modify_value
   end
@@ -57,14 +57,14 @@ class QualityModifiers
 
 # It's a pretty safe bet that an extremely popular library is going to be a well looked after, and maintained library. We weighed different metrics according to how much more valuable the individual metric is rather than just using stars as the core metric.
 
-      Modifier.new("Very Popular", "The popularity of a project is a useful way of discovering if it is useful, and well maintained.", 30, Proc.new { |hash, stats, cp_stats, owners|
+      Modifier.new("Very Popular", "The popularity of a project is a useful way of discovering if it is useful, and well maintained.", 30, Proc.new { |cd_stats, stats, cp_stats, owners|
         value = stats[:contributors].to_i * 90 +  stats[:subscribers].to_i * 20 +  stats[:forks].to_i * 10 + stats[:stargazers].to_i
         value > 9000
       }),
 
 # However, not every idea needs to be big enough to warrent such high metrics. A high amount of engagement is useful in it's own right.
 
-      Modifier.new("Popular", "A popular library means there can be a community to help improve and maintain a project.", 10, Proc.new { |hash, stats, cp_stats, owners|
+      Modifier.new("Popular", "A popular library means there can be a community to help improve and maintain a project.", 10, Proc.new { |cd_stats, stats, cp_stats, owners|
         value = stats[:contributors].to_i * 90 +  stats[:subscribers].to_i * 20 +  stats[:forks].to_i * 10 + stats[:stargazers].to_i
         value > 1500
       }),
@@ -75,8 +75,8 @@ class QualityModifiers
 # We want to encourage support of Apple's Swift Package Manager, it's better for the community to be unified. For more information see our [FAQ](https://guides.cocoapods.org/using/faq.html).
 # This currently checks for the existence of `Package.swift`, once SPM development has slowed down, we may transistion to testing that it supports the latest release.
 
-      Modifier.new("Supports Swift Package Manager", "Supports Apple's official package manager for Swift.", 10, Proc.new { |hash, stats, cp_stats, owners|
-        hash[:spm_support]
+      Modifier.new("Supports Swift Package Manager", "Supports Apple's official package manager for Swift.", 10, Proc.new { |cd_stats, stats, cp_stats, owners|
+        cd_stats[:spm_support]
       }),
 
 ### Inline Documentation
@@ -87,19 +87,19 @@ class QualityModifiers
 # Xcode uses this documentation to give inline hints, and CocoaDocs will create online documentation
 # based on this documentation. Making it much easier for anyone using your library to work with.
 
-      Modifier.new("Great Documentation", "A full suite of documentation makes it easier to use a library.", 3, Proc.new { |hash, stats, cp_stats, owners|
-        hash[:doc_percent].to_i > 90
+      Modifier.new("Great Documentation", "A full suite of documentation makes it easier to use a library.", 3, Proc.new { |cd_stats, stats, cp_stats, owners|
+        cd_stats[:doc_percent].to_i > 90
       }),
 
-      Modifier.new("Documentation", "A well documented library makes it easier to understand what's going on.", 2, Proc.new { |hash, stats, cp_stats, owners|
-        hash[:doc_percent].to_i > 60
+      Modifier.new("Documentation", "A well documented library makes it easier to understand what's going on.", 2, Proc.new { |cd_stats, stats, cp_stats, owners|
+        cd_stats[:doc_percent].to_i > 60
       }),
 
 # Providing no inline comments can make it tough for people to work with your code without having to juggle
 # between multiple contexts. We use -1 to determine that no value was generated.
 
-      Modifier.new("Badly Documented", "Small amounts of documentation generally means the project is immature.", -8, Proc.new { |hash, stats, cp_stats, owners|
-        hash[:doc_percent].to_i < 20 && hash[:doc_percent].to_i != -1
+      Modifier.new("Badly Documented", "Small amounts of documentation generally means the project is immature.", -8, Proc.new { |cd_stats, stats, cp_stats, owners|
+        cd_stats[:doc_percent].to_i < 20 && cd_stats[:doc_percent].to_i != -1
       }),
 
 
@@ -116,16 +116,16 @@ class QualityModifiers
 # _Note:_ These modifiers are still in flux a bit, as we want to take a Podspec's `documentation_url` into account.
 #
 
-      Modifier.new("Great README", "A well written README gives a lot of context for the library, providing enough information to get started. ", 5, Proc.new { |hash, stats, cp_stats, owners|
-        hash[:readme_complexity].to_i > 75
+      Modifier.new("Great README", "A well written README gives a lot of context for the library, providing enough information to get started. ", 5, Proc.new { |cd_stats, stats, cp_stats, owners|
+        cd_stats[:readme_complexity].to_i > 75
       }),
 
-      Modifier.new("Minimal README", "The README is an overview for a library's API. Providing a minimal README means that it can be hard to understand what the library does.", -5, Proc.new { |hash, stats, cp_stats, owners|
-        hash[:readme_complexity].to_i < 40
+      Modifier.new("Minimal README", "The README is an overview for a library's API. Providing a minimal README means that it can be hard to understand what the library does.", -5, Proc.new { |cd_stats, stats, cp_stats, owners|
+        cd_stats[:readme_complexity].to_i < 40
       }),
 
-      Modifier.new("Empty README", "The README is the front page of a library. To have this applied you may have a very empty README.", -8, Proc.new { |hash, stats, cp_stats, owners|
-        hash[:readme_complexity].to_i < 25
+      Modifier.new("Empty README", "The README is the front page of a library. To have this applied you may have a very empty README.", -8, Proc.new { |cd_stats, stats, cp_stats, owners|
+        cd_stats[:readme_complexity].to_i < 25
       }),
 
 ### CHANGELOG
@@ -134,23 +134,23 @@ class QualityModifiers
 # shows a more mature library with care taken by the maintainer to show changes. We look for a `CHANGELOG{,.md,.markdown}`
 # for two directories from the root of your project.
 
-      Modifier.new("Has a CHANGELOG", "CHANGELOGs make it easy to see the differences between versions of your library.", 5, Proc.new { |hash, stats, cp_stats, owners|
-        hash[:rendered_changelog_url] != nil
+      Modifier.new("Has a CHANGELOG", "CHANGELOGs make it easy to see the differences between versions of your library.", 5, Proc.new { |cd_stats, stats, cp_stats, owners|
+        cd_stats[:rendered_changelog_url] != nil
       }),
 
 ### Language Choices
 #
 # Swift is slowly happening. We wanted to positively discriminate people writing libraries in Swift.
 
-      Modifier.new("Built in Swift", "Swift is where things are heading.", 5, Proc.new { |hash, stats, cp_stats, owners|
-        hash[:dominant_language] == "Swift"
+      Modifier.new("Built in Swift", "Swift is where things are heading.", 5, Proc.new { |cd_stats, stats, cp_stats, owners|
+        cd_stats[:dominant_language] == "Swift"
       }),
 
 # Objective-C++ libraries can be difficult to integrate with Swift, and can require a different
 # paradigm of programming from what the majority of projects are used to.
 
-      Modifier.new("Built in Objective-C++", "Usage of Objective-C++ makes it difficult for others to contribute.", -5, Proc.new { |hash, stats, cp_stats, owners|
-        hash[:dominant_language] == "Objective-C++"
+      Modifier.new("Built in Objective-C++", "Usage of Objective-C++ makes it difficult for others to contribute.", -5, Proc.new { |cd_stats, stats, cp_stats, owners|
+        cd_stats[:dominant_language] == "Objective-C++"
       }),
 
 ### Licensing Issues
@@ -159,8 +159,8 @@ class QualityModifiers
 # with putting an App on the App Store, which most people would end up doing.
 # To protect against this case we detract points from GPL'd libraries.
 
-      Modifier.new("Uses GPL", "There are legal issues around distributing GPL'd code in App Store environments.", -20, Proc.new { |hash, stats, cp_stats, owners|
-        hash[:license_short_name] =~ /GPL/i
+      Modifier.new("Uses GPL", "There are legal issues around distributing GPL'd code in App Store environments.", -20, Proc.new { |cd_stats, stats, cp_stats, owners|
+        cd_stats[:license_short_name] =~ /GPL/i
       }),
 
 # There were also quite a few libraries using the WTFPL, which is a license that aims to not be a license.
@@ -168,8 +168,8 @@ class QualityModifiers
 # than not including a license.
 # If you want to do that, use a [public domain](http://choosealicense.com/licenses/unlicense/) license.
 
-      Modifier.new("Uses WTFPL", "WTFPL was denied as an OSI approved license. Thus it is not classed as code license.", -5, Proc.new { |hash, stats, cp_stats, owners|
-        hash[:license_short_name] == "WTFPL"
+      Modifier.new("Uses WTFPL", "WTFPL was denied as an OSI approved license. Thus it is not classed as code license.", -5, Proc.new { |cd_stats, stats, cp_stats, owners|
+        cd_stats[:license_short_name] == "WTFPL"
       }),
 
 ### Code Calls
@@ -178,13 +178,13 @@ class QualityModifiers
 # When you have a library that people are relying on, being able to validate that what you expected to work works increases
 # the quality.
 
-      Modifier.new("Has Tests", "Testing a library shows that the developers care about long term quality on a project as internalized logic is made explicit via testing.", 4, Proc.new { |hash, stats, cp_stats, owners|
-          hash[:total_test_expectations].to_i > 10
+      Modifier.new("Has Tests", "Testing a library shows that the developers care about long term quality on a project as internalized logic is made explicit via testing.", 4, Proc.new { |cd_stats, stats, cp_stats, owners|
+          cd_stats[:total_test_expectations].to_i > 10
       }),
 
-      Modifier.new("Test Expectations / Line of Code", "Having more code covered by tests is great.", 10, Proc.new { |hash, stats, cp_stats, owners|
-        lines = hash[:total_lines_of_code].to_f
-        expectations = hash[:total_test_expectations].to_f
+      Modifier.new("Test Expectations / Line of Code", "Having more code covered by tests is great.", 10, Proc.new { |cd_stats, stats, cp_stats, owners|
+        lines = cd_stats[:total_lines_of_code].to_f
+        expectations = cd_stats[:total_test_expectations].to_f
         if lines != 0
           0.045 < (expectations / lines)
         else
@@ -195,17 +195,17 @@ class QualityModifiers
 # A larger library will increase the size of other people's application. Making them slower to launch.
 # CocoaDocs look at the folder size of the library after CocoaPods has removed anything that is not to be integrated in the app.
 
-      Modifier.new("Install size", "Too big of a library (usually caused by media assets) can impact an app's startup time.", -10, Proc.new { |hash, stats, cp_stats, owners|
-        hash[:install_size].to_i > 10000
+      Modifier.new("Install size", "Too big of a library (usually caused by media assets) can impact an app's startup time.", -10, Proc.new { |cd_stats, stats, cp_stats, owners|
+        cd_stats[:install_size].to_i > 10000
       }),
 
 # CocoaPods makes it easy to create a library with multiple files, we wanted to encourage adoption of smaller
 # more composable libraries.
 
-      Modifier.new("Lines of Code / File", "Smaller, more composeable classes tend to be easier to understand.", -8, Proc.new { |hash, stats, cp_stats, owners|
-        files = hash[:total_files].to_i
+      Modifier.new("Lines of Code / File", "Smaller, more composeable classes tend to be easier to understand.", -8, Proc.new { |cd_stats, stats, cp_stats, owners|
+        files = cd_stats[:total_files].to_i
         if files != 0
-          (hash[:total_lines_of_code].to_f / hash[:total_files].to_f) > 250
+          (cd_stats[:total_lines_of_code].to_f / cd_stats[:total_files].to_f) > 250
         else
           false
         end
@@ -218,7 +218,7 @@ class QualityModifiers
 # These are useful for the companies the size of; Google, Facebook, Amazon and Dropbox.
 # We are applying this very sparingly, and have been reaching out to companies individually.
 
-      Modifier.new("Verified Owner", "When a pod comes from a large company with an official account.", 20, Proc.new { |hash, stats, cp_stats, owners|
+      Modifier.new("Verified Owner", "When a pod comes from a large company with an official account.", 20, Proc.new { |cd_stats, stats, cp_stats, owners|
         owners.find { |owner| owner.owner.is_verified } != nil
       }),
 
@@ -227,7 +227,7 @@ class QualityModifiers
 # This is an experiment in figuring out if a project is abandoned. Issues could be used as a TODO list,
 # but leaving 50+ un-opened feels a bit off. It's more likely that the project has been sunsetted.
 
-      Modifier.new("Lots of open issues", "A project with a lot of open issues is generally abandoned. If it is a popular library, then it is usually offset by the popularity modifiers.", -8, Proc.new { |hash, stats, cp_stats, owners|
+      Modifier.new("Lots of open issues", "A project with a lot of open issues is generally abandoned. If it is a popular library, then it is usually offset by the popularity modifiers.", -8, Proc.new { |cd_stats, stats, cp_stats, owners|
         stats[:open_issues].to_i > 50
       })
 
