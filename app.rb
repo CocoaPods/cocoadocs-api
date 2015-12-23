@@ -7,8 +7,6 @@ require_relative "twitter_notifier"
 
 class App < Sinatra::Base
 
-  COCOADOCS_IP = ENV['COCOADOCS_IP'] || '199.229.252.196'
-
   # Set up dynamic part.
   #
   require_relative 'domain'
@@ -61,7 +59,7 @@ class App < Sinatra::Base
     github_stats = github_pod_metrics.where(github_pod_metrics[:pod_id] => pod.id).first
     cocoapods_stats = stats_metrics.where(pod_id: pod.id).first
     owners = owners_pods.outer_join(:owners).on(:owner_id => :id).where(:pod_id => pod.id)
-    data[:quality_estimate] = QualityModifiers.new.generate(data, github_stats, cocoapods_stats, cocoapods_stats, owners)
+    data[:quality_estimate] = QualityModifiers.new.generate(data, github_stats, cocoapods_stats, owners)
 
     # update or create a metrics
     metric = cocoadocs_pod_metrics.where(cocoadocs_pod_metrics[:pod_id] => pod.id).first
