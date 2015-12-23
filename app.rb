@@ -58,8 +58,9 @@ class App < Sinatra::Base
     }
 
     github_stats = github_pod_metrics.where(github_pod_metrics[:pod_id] => pod.id).first
+    cocoapods_stats = stats_metrics.where(pod_id: pod.id).first
     owners = owners_pods.outer_join(:owners).on(:owner_id => :id).where(:pod_id => pod.id)
-    data[:quality_estimate] = QualityModifiers.new.generate(data, github_stats, owners)
+    data[:quality_estimate] = QualityModifiers.new.generate(data, github_stats, cocoapods_stats, cp_stats, owners)
 
     # update or create a metrics
     metric = cocoadocs_pod_metrics.where(cocoadocs_pod_metrics[:pod_id] => pod.id).first
@@ -115,7 +116,7 @@ class App < Sinatra::Base
     }
 
     result[:metrics] = QualityModifiers.new.modifiers.map do |modifier|
-      modifier.to_json(metric, github_stats, owners)
+      modifier.to_json(metric, github_stats, cp_stats, owners)
     end
 
     result.to_json
