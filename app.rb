@@ -55,6 +55,7 @@ class App < Sinatra::Base
       :dominant_language => metrics["dominant_language"],
       :is_vendored_framework => metrics["is_vendored_framework"],
       :builds_independently => metrics["builds_independently"],
+      :spm_support => metrics["spm_support"],
     }
 
     github_stats = github_pod_metrics.where(github_pod_metrics[:pod_id] => pod.id).first

@@ -8,7 +8,7 @@ class Modifier
     @function = function
   end
 
-  def to_json(hash, pod_stats, cocoapods_stats, cp_stats, owners)
+  def to_json(hash, pod_stats, cp_stats, owners)
     {
       "title" => title,
       "description" => description,
@@ -70,6 +70,14 @@ class QualityModifiers
       }),
 
 # At the moment this is entirely focused on libraries that are coming from GitHub. In the future, once Stats for downloads/installs are mature then we will move over to that in order to accomodate libraries not using GitHub.
+
+### Swift Package Manager
+# We want to encourage support of Apple's Swift Package Manager, it's better for the community to be unified. For more information see our [FAQ](https://guides.cocoapods.org/using/faq.html).
+# This currently checks for the existence of `Package.swift`, once SPM development has slowed down, we may transistion to testing that it supports the latest release.
+
+      Modifier.new("Supports Swift Package Manager", "Supports Apple's official package manager for Swift.", 10, Proc.new { |hash, stats, cp_stats, owners|
+        hash[:spm_support]
+      }),
 
 ### Inline Documentation
 # A lot of the generated documentation comes from inside the library itself.
@@ -221,12 +229,6 @@ class QualityModifiers
 
       Modifier.new("Lots of open issues", "A project with a lot of open issues is generally abandoned. If it is a popular library, then it is usually offset by the popularity modifiers.", -8, Proc.new { |hash, stats, cp_stats, owners|
         stats[:open_issues].to_i > 50
-      }),
-
-# This metric checks for frameworks that are genererated when running `xcodebuild` within the downloaded repo. You need to turn on shared schemes for the framework in order for it to be registered.
-
-      Modifier.new("Independently builds through Xcode", "Meaning that the library can independently be built after a git clone.", 5, Proc.new { |hash, stats, cp_stats, owners|
-        hash[:builds_independently]
       })
 
       #### End of Markdown --->
