@@ -125,7 +125,7 @@ class QualityModifiers
       }),
 
       Modifier.new("Empty README", "The README is the front page of a library. To have this applied you may have a very empty README.", -8, Proc.new { |spec, cd_stats, stats, cp_stats, owners|
-        cd_stats[:readme_complexity].to_i < 25 && spec.documentation_url != nil
+        cd_stats[:readme_complexity].to_i < 25 && spec.documentation_url == nil
       }),
 
 ### CHANGELOG
