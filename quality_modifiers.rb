@@ -105,7 +105,7 @@ class QualityModifiers
 
 ### README Scoring
 # The README score is based on an algorithm that looks at the variety of the *bundled* README.
-# You can run the algorithm against any URL here on [scoreme.report](http://scoreme.report).
+# You can run the algorithm against any URL here on [clayallsopp.github.io/readme-score](http://clayallsopp.github.io/readme-score).
 # A README is the front-page of your library, it can provide an overview of API or show what the
 # library can do.
 #
