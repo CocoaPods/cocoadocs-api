@@ -1,17 +1,16 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (4.2.4)
+    activesupport (4.2.8)
       i18n (~> 0.7)
-      json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.3.6)
     arel (5.0.1.20140414130214)
     buftok (0.2.0)
-    cocoapods-core (0.39.0)
-      activesupport (>= 4.0.2)
+    cocoapods-core (1.2.1)
+      activesupport (>= 4.0.2, < 5)
       fuzzy_match (~> 2.0.4)
       nap (~> 1.0)
     connection_pool (2.0.0)
@@ -48,13 +47,13 @@ GEM
     http (0.6.3)
       http_parser.rb (~> 0.6.0)
     http_parser.rb (0.6.0)
-    i18n (0.7.0)
-    json (1.8.3)
+    i18n (0.8.1)
+    json (1.8.6)
     memoizable (0.4.2)
       thread_safe (~> 0.3, >= 0.3.1)
-    minitest (5.8.1)
+    minitest (5.10.2)
     multipart-post (2.0.0)
-    nap (1.0.0)
+    nap (1.1.0)
     naught (1.0.0)
     pg (0.17.1)
     rack (1.5.2)
@@ -71,7 +70,7 @@ GEM
       eventmachine (>= 1.0.0)
       rack (>= 1.0.0)
     thor (0.19.1)
-    thread_safe (0.3.5)
+    thread_safe (0.3.6)
     tilt (1.4.1)
     twitter (5.14.0)
       addressable (~> 2.3)
@@ -84,7 +83,7 @@ GEM
       memoizable (~> 0.4.0)
       naught (~> 1.0)
       simple_oauth (~> 0.3.0)
-    tzinfo (1.2.2)
+    tzinfo (1.2.3)
       thread_safe (~> 0.1)
 
 PLATFORMS
@@ -102,5 +101,8 @@ DEPENDENCIES
   thin
   twitter
 
+RUBY VERSION
+   ruby 2.1.3p242
+
 BUNDLED WITH
-   1.10.6
+   1.14.6
