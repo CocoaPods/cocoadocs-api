@@ -1,3 +1,6 @@
+# rubocop:disable Metrics/LineLength
+# rubocop:disable Style/CommentIndentation
+
 class Modifier
   attr_accessor :description, :title, :modifier, :function
 
@@ -58,50 +61,24 @@ class QualityModifiers
 # It's a pretty safe bet that an extremely popular library is going to be a well looked after, and maintained library. We weighed different metrics according to how much more valuable the individual metric is rather than just using stars as the core metric.
 
       Modifier.new("Very Popular", "The popularity of a project is a useful way of discovering if it is useful, and well maintained.", 30, Proc.new { |spec, cd_stats, stats, cp_stats, owners|
-        value = stats[:contributors].to_i * 90 +  stats[:subscribers].to_i * 20 +  stats[:forks].to_i * 10 + stats[:stargazers].to_i
+        value = stats[:contributors].to_i * 90 + stats[:subscribers].to_i * 20 +  stats[:forks].to_i * 10 + stats[:stargazers].to_i
         value > 9000
       }),
 
 # However, not every idea needs to be big enough to warrent such high metrics. A high amount of engagement is useful in it's own right.
 
       Modifier.new("Popular", "A popular library means there can be a community to help improve and maintain a project.", 10, Proc.new { |spec, cd_stats, stats, cp_stats, owners|
-        value = stats[:contributors].to_i * 90 +  stats[:subscribers].to_i * 20 +  stats[:forks].to_i * 10 + stats[:stargazers].to_i
+        value = stats[:contributors].to_i * 90 + stats[:subscribers].to_i * 20 +  stats[:forks].to_i * 10 + stats[:stargazers].to_i
         value > 1500
       }),
-
-# At the moment this is entirely focused on libraries that are coming from GitHub. In the future, once Stats for downloads/installs are mature then we will move over to that in order to accomodate libraries not using GitHub.
 
 ### Swift Package Manager
 # We want to encourage support of Apple's Swift Package Manager, it's better for the community to be unified. For more information see our [FAQ](https://guides.cocoapods.org/using/faq.html).
 # This currently checks for the existence of `Package.swift`, once SPM development has slowed down, we may transistion to testing that it supports the latest release.
 
-      Modifier.new("Supports Swift Package Manager", "Supports Apple's official package manager for Swift.", 10, Proc.new { |spec, cd_stats, stats, cp_stats, owners|
+      Modifier.new("Supports Swift Package Manager", "Supports Apple's official package manager for Swift.", 15, Proc.new { |spec, cd_stats, stats, cp_stats, owners|
         cd_stats[:spm_support]
       }),
-
-### Inline Documentation
-# A lot of the generated documentation comes from inside the library itself.
-# These metrics are about the usage of [Appledoc](http://nshipster.com/documentation/) and [Headerdoc](http://nshipster.com/swift-documentation/) within your public API.
-# This means either from the parts of Swift that you have classed as `public` or from the public headers.
-#
-# Xcode uses this documentation to give inline hints, and CocoaDocs will create online documentation
-# based on this documentation. Making it much easier for anyone using your library to work with.
-
-      Modifier.new("Great Documentation", "A full suite of documentation makes it easier to use a library.", 3, Proc.new { |spec, cd_stats, stats, cp_stats, owners|
-        cd_stats[:doc_percent].to_i > 90
-      }),
-
-      Modifier.new("Documentation", "A well documented library makes it easier to understand what's going on.", 2, Proc.new { |spec, cd_stats, stats, cp_stats, owners|
-        cd_stats[:doc_percent].to_i > 60
-      }),
-
-# Providing no inline comments can make it tough for people to work with your code without having to juggle
-# between multiple contexts. We use -1 to determine that no value was generated.
-
-      Modifier.new("Badly Documented", "Small amounts of documentation generally means the project is immature.", -8, Proc.new { |spec, cd_stats, stats, cp_stats, owners|
-        cd_stats[:doc_percent].to_i < 20 && cd_stats[:doc_percent].to_i != -1
-      }),
-
 
 ### README Scoring
 # The README score is based on an algorithm that looks at the variety of the *bundled* README.
@@ -134,13 +111,13 @@ class QualityModifiers
 # shows a more mature library with care taken by the maintainer to show changes. We look for a `CHANGELOG{,.md,.markdown}`
 # for two directories from the root of your project.
 
-      Modifier.new("Has a CHANGELOG", "CHANGELOGs make it easy to see the differences between versions of your library.", 5, Proc.new { |spec, cd_stats, stats, cp_stats, owners|
+      Modifier.new("Has a CHANGELOG", "CHANGELOGs make it easy to see the differences between versions of your library.", 8, Proc.new { |spec, cd_stats, stats, cp_stats, owners|
         cd_stats[:rendered_changelog_url] != nil
       }),
 
 ### Language Choices
 #
-# Swift is slowly happening. We wanted to positively discriminate people writing libraries in Swift.
+# Swift is happening. We wanted to positively discriminate people writing libraries in Swift.
 
       Modifier.new("Built in Swift", "Swift is where things are heading.", 5, Proc.new { |spec, cd_stats, stats, cp_stats, owners|
         cd_stats[:dominant_language] == "Swift"
@@ -179,7 +156,7 @@ class QualityModifiers
 # the quality.
 
       Modifier.new("Has Tests", "Testing a library shows that the developers care about long term quality on a project as internalized logic is made explicit via testing.", 4, Proc.new { |spec, cd_stats, stats, cp_stats, owners|
-          cd_stats[:total_test_expectations].to_i > 10
+        cd_stats[:total_test_expectations].to_i > 10
       }),
 
       Modifier.new("Test Expectations / Line of Code", "Having more code covered by tests is great.", 10, Proc.new { |spec, cd_stats, stats, cp_stats, owners|
@@ -190,13 +167,6 @@ class QualityModifiers
         else
           false
         end
-      }),
-
-# A larger library will increase the size of other people's application. Making them slower to launch.
-# CocoaDocs look at the folder size of the library after CocoaPods has removed anything that is not to be integrated in the app.
-
-      Modifier.new("Install size", "Too big of a library (usually caused by media assets) can impact an app's startup time.", -10, Proc.new { |spec, cd_stats, stats, cp_stats, owners|
-        cd_stats[:install_size].to_i > 10000
       }),
 
 # CocoaPods makes it easy to create a library with multiple files, we wanted to encourage adoption of smaller
@@ -228,7 +198,7 @@ class QualityModifiers
 # is because before v1.0.0 a library author makes no promise on backwards compatability.
 
       Modifier.new("Post-1.0.0", "Has a Semantic Version that is above 1.0.0", 5, Proc.new { |spec, cd_stats, stats, cp_stats, owners|
-        Pod::Version.new("1.0.0") < Pod::Version.new(spec.version)
+        Pod::Version.new("1.0.0") <= Pod::Version.new(spec.version)
       }),
 
 # When it's time to deprecate a library, we should reflect that in the search results.
