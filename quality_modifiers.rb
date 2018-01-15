@@ -192,7 +192,7 @@ class QualityModifiers
         owners.find { |owner| owner.owner.is_verified } != nil
       }),
 
-### Maintainance
+### Maintenance
 # We want to encourage people to ship semantic versions with their libraries. It can be hard to know
 # what to expect from a library that is not yet at 1.0.0 given there is no social contract there. This
 # is because before v1.0.0 a library author makes no promise on backwards compatability.
