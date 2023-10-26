@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.1.3'
+ruby '2.7.4'
 
 gem 'twitter'
 gem 'cocoapods-core'
